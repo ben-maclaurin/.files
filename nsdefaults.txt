@@ -1,1 +1,4 @@
 defaults write -g NSWindowShouldDragOnGesture YES
+
+defaults write -g InitialKeyRepeat -int 5
+defaults write -g KeyRepeat -int 1
