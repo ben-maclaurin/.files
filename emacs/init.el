@@ -44,3 +44,13 @@
 
 ;; Magit
 (use-package magit)
+
+;; Affe
+(use-package affe)
+
+;; Vertico
+(use-package vertico
+  :init
+  (vertico-mode))
+
+(use-package ef-themes)
