@@ -27,6 +27,9 @@
 ;; No title bar
 (add-to-list 'default-frame-alist '(undecorated-round . t))
 
+;; No scrollbar
+(scroll-bar-mode -1)
+
 ;; Convenience
 (setq next-line-add-newlines t)
 (delete-selection-mode 1)
@@ -46,11 +49,41 @@
 (use-package magit)
 
 ;; Affe
-(use-package affe)
+(use-package affe
+  :bind
+  (("M-p" . affe-find)
+   ("M-P" . affe-grep)))
 
 ;; Vertico
 (use-package vertico
   :init
   (vertico-mode))
 
+;; Ef-themes
 (use-package ef-themes)
+
+;; Avy
+(use-package avy
+  :bind
+  (("C-j" . avy-goto-char-timer)))
+
+;; Expand-region
+(use-package
+ expand-region
+ :init (require 'expand-region)
+ :bind
+ (("C-l" . er/expand-region)
+  ("C-;" . er/contract-region)))
+
+(global-set-key (kbd "M-o") 'other-window)
+
+(global-set-key (kbd "C-c u") 'winner-undo)
+(global-set-key (kbd "C-c r") 'winner-redo)
+
+(global-set-key (kbd "C-c p") 'previous-buffer)
+(global-set-key (kbd "C-c n") 'next-buffer)
+
+(winner-mode 1)
+(global-tab-line-mode 1)
+
+(global-unset-key (kbd "C-x o"))
