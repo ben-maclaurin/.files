@@ -87,3 +87,11 @@
 (global-tab-line-mode 1)
 
 (global-unset-key (kbd "C-x o"))
+
+(global-set-key (kbd "C-a") 'back-to-indentation)
+(global-set-key (kbd "M-m") 'move-beginning-of-line)
+
+(use-package dumb-jump)
+(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+
+
