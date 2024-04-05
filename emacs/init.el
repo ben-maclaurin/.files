@@ -27,7 +27,7 @@
 (setq mac-command-modifier 'meta)
 
 ;; No title bar
-(add-to-list 'default-frame-alist '(undecorated . t))
+(add-to-list 'default-frame-alist '(undecorated-round . t))
 
 ;; No scrollbar
 (scroll-bar-mode -1)
@@ -46,9 +46,6 @@
 
 ;; Line numbers
 (global-display-line-numbers-mode t)
-
-;; Magit
-(use-package magit)
 
 ;; Affe
 (use-package affe
@@ -84,6 +81,7 @@
 (global-tab-line-mode 1)
 
 (global-unset-key (kbd "C-x o"))
+(global-unset-key (kbd "M-C"))
 
 (global-set-key (kbd "C-a") 'back-to-indentation)
 (global-set-key (kbd "M-m") 'move-beginning-of-line)
@@ -125,3 +123,6 @@
   (marginalia-mode))
 
 (use-package embark)
+
+(use-package magit)
+
