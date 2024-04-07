@@ -21,7 +21,7 @@
 (setq custom-file (locate-user-emacs-file "custom.el"))
 
 ;; Font
-(set-frame-font "Iosevka-14" nil t)
+(set-frame-font "Berkeley Mono Variable-14" nil t)
 
 ;; Darwin
 (setq mac-command-modifier 'meta)
@@ -45,7 +45,7 @@
 (pixel-scroll-precision-mode 1)
 
 ;; Line numbers
-(global-display-line-numbers-mode t)
+;; (global-display-line-numbers-mode t)
 
 ;; Affe
 (use-package affe
@@ -125,4 +125,20 @@
 (use-package embark)
 
 (use-package magit)
+
+(use-package helpful)
+
+(set-face-attribute 'variable-pitch nil :family "Berkeley Mono Variable")
+
+(setq-default truncate-lines t)
+
+(setq shell-file-name "/bin/bash")
+(setq explicit-shell-file-name "/bin/bash")
+
+(global-set-key (kbd "C-;") 'tailmacs)
+
+
+
+
+
 
