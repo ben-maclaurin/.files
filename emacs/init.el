@@ -403,9 +403,6 @@
 (setq mac-command-modifier 'meta)
 (setq mac-option-modifier 'none)
 
-;; Use the Modus theme
-(load-theme 'modus-operandi)
-
 ;; Font
 (set-face-attribute 'default nil :font "Iosevka Comfy Motion-16")
 
@@ -492,6 +489,13 @@
 (use-package magit)
 (global-set-key (kbd "C-x g") 'magit-status)
 
+;; Orderless
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
 (use-package tomorrow-night-deepblue-theme
   :ensure t
   :config
@@ -499,6 +503,19 @@
   (mapc #'disable-theme custom-enabled-themes)
   (load-theme 'tomorrow-night-deepblue t))
 
+;; How is this not a default?!!
+(delete-selection-mode 1)
+
+(use-package expand-region
+  :ensure t
+  :bind
+  (("M-n" . er/expand-region)
+   ("M-p" . er/contract-region)))
+
+(use-package spacious-padding)
+(spacious-padding-mode)
+
 (provide 'init)
 
 ;;; init.el ends here
+
