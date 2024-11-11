@@ -405,7 +405,6 @@
 
 ;; Font
 (set-face-attribute 'default nil :font "Iosevka Comfy Motion-16")
-(setq-default line-spacing 0.5)
 
 ;; Get my iCloud Drive
 (defun open-icloud-drive ()
@@ -441,7 +440,7 @@
    ("C-x b" . consult-buffer)            ;; Switch buffers
    ("M-g g" . consult-goto-line)         ;; Go to a specific line
    ("M-g M-g" . consult-goto-line)
-   ("M-s f" . consult-fd)              ;; Find files
+   ("M-s f" . consult-find)              ;; Find files
    ("M-s r" . consult-ripgrep)           ;; Search using ripgrep
    ("M-s l" . consult-line)              ;; Search within the current buffer
    ("M-s m" . consult-mark)              ;; Jump to a mark
@@ -516,91 +515,19 @@
 (use-package spacious-padding)
 (spacious-padding-mode)
 
-(setq treesit-language-source-alist
-   '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-     (cmake "https://github.com/uyha/tree-sitter-cmake")
-     (css "https://github.com/tree-sitter/tree-sitter-css")
-     (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-     (go "https://github.com/tree-sitter/tree-sitter-go")
-     (html "https://github.com/tree-sitter/tree-sitter-html")
-     (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-     (json "https://github.com/tree-sitter/tree-sitter-json")
-     (make "https://github.com/alemuller/tree-sitter-make")
-     (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-     (python "https://github.com/tree-sitter/tree-sitter-python")
-     (toml "https://github.com/tree-sitter/tree-sitter-toml")
-     (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-     (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-     (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
-(defun open-in-pycharm ()
-  "Open the current file in PyCharm."
+(defun dired-open-random-file ()
+  "Open a random file from the current Dired directory."
   (interactive)
-  (let ((file (buffer-file-name)))
-    (when file
-      (start-process "open-pycharm" nil "open" "-a" "PyCharm" file))))
+  (let* ((files (directory-files dired-directory t directory-files-no-dot-files-regexp))
+         (count (length files)))
+    (if (> count 0)
+        (find-file (nth (random count) files))
+      (message "No files available in the current directory."))))
 
-(global-set-key (kbd "C-c p") 'open-in-pycharm)
-
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
-
-(defun open-firefox ()
-  "Open Firefox browser."
-  (interactive)
-  (start-process "firefox" nil "open" "-a" "Firefox"))
-
-(global-set-key (kbd "C-c f") 'open-firefox)
-
-(global-set-key (kbd "C-,") 'global-devil-mode)
-(devil-set-key (kbd ","))
-
-(use-package goggles
-  :hook ((prog-mode text-mode) . goggles-mode)
-  :config
-  (setq-default goggles-pulse t)) ;; set to nil to disable pulsing
-
-(use-package corfu
-  :ensure t
-  :custom
-  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous`
-  (corfu-auto t)                 ;; Enable auto completion
-  (corfu-separator ?\s)          ;; Orderless field separator
-  (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-  (corfu-preview-current nil)    ;; Disable current candidate preview
-  (corfu-preselect 'prompt)      ;; Preselect the prompt
-  (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-  (corfu-scroll-margin 5)        ;; Use scroll margin
-  :init
-  (global-corfu-mode))
-(use-package prescient)
-(use-package cape)
-
-(use-package undo-fu)
-(global-unset-key (kbd "C-z"))
-(global-set-key (kbd "C-z")   'undo-fu-only-undo)
-(global-set-key (kbd "C-M-z") 'undo-fu-only-redo)
-
-(global-set-key (kbd "C-x .")  'ffap)
-;;keep cursor at same position when scrolling
-(setq scroll-preserve-screen-position 1)
-;;scroll window up/down by one line
-(global-set-key (kbd "M-n") (kbd "C-u 1 C-v"))
-(global-set-key (kbd "M-p") (kbd "C-u 1 M-v"))
-
-(use-package vertico-posframe
-  :init
-  (vertico-posframe-mode))
-(use-package which-key-posframe
-  :init
-  (which-key-posframe-mode))
-(use-package transient-posframe
-  :init
-  (transient-posframe-mode))
-
-(global-set-key (kbd "C-a") 'back-to-indentation)
+(global-set-key (kbd "C-c r") 'dired-open-random-file)
 
 (provide 'init)
 
 ;;; init.el ends here
+
