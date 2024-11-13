@@ -520,15 +520,6 @@
      (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
      (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
-(defun open-in-pycharm ()
-  "Open the current file in PyCharm."
-  (interactive)
-  (let ((file (buffer-file-name)))
-    (when file
-      (start-process "open-pycharm" nil "open" "-a" "PyCharm" file))))
-
-(global-set-key (kbd "C-c p") 'open-in-pycharm)
-
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
