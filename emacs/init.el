@@ -404,7 +404,7 @@
 (setq mac-option-modifier 'none)
 
 ;; Font
-(set-face-attribute 'default nil :font "Iosevka Comfy Motion-16")
+(set-face-attribute 'default nil :font "Essential PragmataPro-14")
 (setq-default line-spacing 0.5)
 
 ;; Get my iCloud Drive
@@ -497,21 +497,8 @@
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
-(use-package tomorrow-night-deepblue-theme
-  :ensure t
-  :config
-  ;; Disable all themes and load the Tomorrow Night Deep Blue theme
-  (mapc #'disable-theme custom-enabled-themes)
-  (load-theme 'tomorrow-night-deepblue t))
-
 ;; How is this not a default?!!
 (delete-selection-mode 1)
-
-(use-package expand-region
-  :ensure t
-  :bind
-  (("M-n" . er/expand-region)
-   ("M-p" . er/contract-region)))
 
 (use-package spacious-padding)
 (spacious-padding-mode)
@@ -552,54 +539,114 @@
 
 (global-set-key (kbd "C-c f") 'open-firefox)
 
-(global-set-key (kbd "C-,") 'global-devil-mode)
-(devil-set-key (kbd ","))
+(setq denote-directory (expand-file-name "~/org/"))
 
-(use-package goggles
-  :hook ((prog-mode text-mode) . goggles-mode)
-  :config
-  (setq-default goggles-pulse t)) ;; set to nil to disable pulsing
+;;; Call Claude
+(defun dispatch-macos-shortcut ()
+  "Send Option+Space shortcut to macOS using AppleScript."
+  (interactive)
+  (let ((applescript "
+tell application \"System Events\"
+    keystroke space using {option down}
+end tell"))
+    (call-process "osascript" nil nil nil "-e" applescript)))
 
-(use-package corfu
-  :ensure t
-  :custom
-  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous`
-  (corfu-auto t)                 ;; Enable auto completion
-  (corfu-separator ?\s)          ;; Orderless field separator
-  (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-  (corfu-preview-current nil)    ;; Disable current candidate preview
-  (corfu-preselect 'prompt)      ;; Preselect the prompt
-  (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-  (corfu-scroll-margin 5)        ;; Use scroll margin
-  :init
-  (global-corfu-mode))
-(use-package prescient)
-(use-package cape)
+;; Bind to a convenient key combination
+(global-set-key (kbd "C-c c") 'dispatch-macos-shortcut)
 
-(use-package undo-fu)
-(global-unset-key (kbd "C-z"))
-(global-set-key (kbd "C-z")   'undo-fu-only-undo)
-(global-set-key (kbd "C-M-z") 'undo-fu-only-redo)
+(use-package atomic-chrome)
 
-(global-set-key (kbd "C-x .")  'ffap)
-;;keep cursor at same position when scrolling
-(setq scroll-preserve-screen-position 1)
-;;scroll window up/down by one line
-(global-set-key (kbd "M-n") (kbd "C-u 1 C-v"))
-(global-set-key (kbd "M-p") (kbd "C-u 1 M-v"))
+(defun meow-setup ()
+  (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+  (meow-motion-overwrite-define-key
+   '("j" . meow-next)
+   '("k" . meow-prev)
+   '("<escape>" . ignore))
+  (meow-leader-define-key
+   ;; SPC j/k will run the original command in MOTION state.
+   '("j" . "H-j")
+   '("k" . "H-k")
+   ;; Use SPC (0-9) for digit arguments.
+   '("1" . meow-digit-argument)
+   '("2" . meow-digit-argument)
+   '("3" . meow-digit-argument)
+   '("4" . meow-digit-argument)
+   '("5" . meow-digit-argument)
+   '("6" . meow-digit-argument)
+   '("7" . meow-digit-argument)
+   '("8" . meow-digit-argument)
+   '("9" . meow-digit-argument)
+   '("0" . meow-digit-argument)
+   '("/" . meow-keypad-describe-key)
+   '("?" . meow-cheatsheet))
+  (meow-normal-define-key
+   '("0" . meow-expand-0)
+   '("9" . meow-expand-9)
+   '("8" . meow-expand-8)
+   '("7" . meow-expand-7)
+   '("6" . meow-expand-6)
+   '("5" . meow-expand-5)
+   '("4" . meow-expand-4)
+   '("3" . meow-expand-3)
+   '("2" . meow-expand-2)
+   '("1" . meow-expand-1)
+   '("-" . negative-argument)
+   '(";" . meow-reverse)
+   '("," . meow-inner-of-thing)
+   '("." . meow-bounds-of-thing)
+   '("[" . meow-beginning-of-thing)
+   '("]" . meow-end-of-thing)
+   '("a" . meow-append)
+   '("A" . meow-open-below)
+   '("b" . meow-back-word)
+   '("B" . meow-back-symbol)
+   '("c" . meow-change)
+   '("d" . meow-delete)
+   '("D" . meow-backward-delete)
+   '("e" . meow-next-word)
+   '("E" . meow-next-symbol)
+   '("f" . meow-find)
+   '("g" . meow-cancel-selection)
+   '("G" . meow-grab)
+   '("h" . meow-left)
+   '("H" . meow-left-expand)
+   '("i" . meow-insert)
+   '("I" . meow-open-above)
+   '("j" . meow-next)
+   '("J" . meow-next-expand)
+   '("k" . meow-prev)
+   '("K" . meow-prev-expand)
+   '("l" . meow-right)
+   '("L" . meow-right-expand)
+   '("m" . meow-join)
+   '("n" . meow-search)
+   '("o" . meow-open-below)
+   '("O" . meow-open-above)
+   '("p" . meow-yank)
+   '("q" . meow-quit)
+   '("Q" . meow-goto-line)
+   '("r" . meow-replace)
+   '("R" . meow-swap-grab)
+   '("s" . meow-kill)
+   '("t" . meow-till)
+   '("u" . meow-undo)
+   '("U" . meow-undo-in-selection)
+   '("v" . meow-visit)
+   '("w" . meow-mark-word)
+   '("W" . meow-mark-symbol)
+   '("x" . meow-line)
+   '("X" . meow-goto-line)
+   '("y" . meow-save)
+   '("Y" . meow-sync-grab)
+   '("z" . meow-pop-selection)
+   '("'" . repeat)
+   '("<escape>" . ignore)))
 
-(use-package vertico-posframe
-  :init
-  (vertico-posframe-mode))
-(use-package which-key-posframe
-  :init
-  (which-key-posframe-mode))
-(use-package transient-posframe
-  :init
-  (transient-posframe-mode))
+(require 'meow)
+(meow-setup)
+(meow-global-mode 1)
 
-(global-set-key (kbd "C-a") 'back-to-indentation)
+(use-package kuronami-theme)
 
 (provide 'init)
 
