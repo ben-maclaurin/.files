@@ -1,0 +1,7 @@
+program: emacsclient
+arguments: -n "+$LineNumber$:$ColumnNumber$" $FilePath$
+working directory: $FileDir$
+
+full command:
+
+emacsclient -n "+$LineNumber$:$ColumnNumber$" $FilePath$ $FileDir$
