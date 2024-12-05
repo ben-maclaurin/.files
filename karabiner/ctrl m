@@ -1,0 +1,24 @@
+{
+    "description": "Map Control+M to Return",
+    "manipulators": [
+        {
+            "from": {
+                "key_code": "m",
+                "modifiers": {
+                    "mandatory": [
+                        "control"
+                    ],
+                    "optional": [
+                        "any"
+                    ]
+                }
+            },
+            "to": [
+                {
+                    "key_code": "return_or_enter"
+                }
+            ],
+            "type": "basic"
+        }
+    ]
+}
