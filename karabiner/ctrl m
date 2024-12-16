@@ -1,9 +1,17 @@
 {
-    "description": "Map Control+M to Return",
+    "description": "Map Control+J to Return (excluding Emacs)",
     "manipulators": [
         {
+            "conditions": [
+                {
+                    "bundle_identifiers": [
+                        "^org\\.gnu\\.Emacs$"
+                    ],
+                    "type": "frontmost_application_unless"
+                }
+            ],
             "from": {
-                "key_code": "m",
+                "key_code": "j",
                 "modifiers": {
                     "mandatory": [
                         "control"
