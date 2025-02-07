@@ -1,0 +1,55 @@
+{
+    "description": "Type 'txa website' then send control+m on command+control+k",
+    "manipulators": [
+        {
+            "from": {
+                "key_code": "k",
+                "modifiers": {
+                    "mandatory": [
+                        "command",
+                        "control"
+                    ]
+                }
+            },
+            "to": [
+                {
+                    "key_code": "t"
+                },
+                {
+                    "key_code": "x"
+                },
+                {
+                    "key_code": "a"
+                },
+                {
+                    "key_code": "spacebar"
+                },
+                {
+                    "key_code": "w"
+                },
+                {
+                    "key_code": "e"
+                },
+                {
+                    "key_code": "b"
+                },
+                {
+                    "key_code": "s"
+                },
+                {
+                    "key_code": "i"
+                },
+                {
+                    "key_code": "t"
+                },
+                {
+                    "key_code": "e"
+                },
+                {
+                    "key_code": "return_or_enter"
+                }
+            ],
+            "type": "basic"
+        }
+    ]
+}
